@@ -1,68 +1,94 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Workshop at Experis 30th of January 2019
 
-## Available Scripts
+During this workshop we will create a simple web application using a javascript library called React.<br>
+There will be two possible ways of completing the workshop.
 
-In the project directory, you can run:
+## Path A: Create a simple web application and deploy it online using [GitHub Pages](https://pages.github.com/).
 
-### `npm start`
+### Goals
+* Create a simple web application using React
+* Use version control (Git) to manage your project
+* Host the webpage using GitHub Pages
+* Display information from an external Rest API
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### Requirements
+* Git installed on you machhine
+  * Linux: `sudo apt-get install git`
+  * [Mac](https://hackernoon.com/install-git-on-mac-a884f0c9d32c)
+  * [Windows](https://hackernoon.com/install-git-on-windows-9acf2a1944f0)
+* [GitHub account](https://github.com/join)
+* [Node 8.10 or later](https://nodejs.org/en/download/)
+* Run “node -v” in your terminal, if it does not return a version number node is not properly installed on your machine.
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+## Path B: Create a simple web application using [JSFiddle](https://jsfiddle.net).
 
-### `npm test`
+### Goals
+* Create a simple web application using React
+* Display information from an external Rest API
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+If you choose this path skip steps 1 to 5
 
-### `npm run build`
 
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Step 1: Bootstrap a React application
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
+Open the terminal and navigate to where you want the project to be.<br>
+Run the following commands:<br>
+```
+npx create-react-app workshop
+cd workshop
+npm start
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```
+Go to http://localhost:3000/ to see the sample application
 
-### `npm run eject`
+### Step 2: Create a repository on GitHub
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+Go to [GitHub](https://github.com).<br>
+Click your avatar and select **Your repositories** in the dropdown.<br>
+Click **New**.<br>
+Write `workshop` under **Repository name**<br>
+Click **Create repository**<br>
+Copy the command under **…or push an existing repository from the command line**
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+### Step 3: Connect your repository to your project
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+Open a new terminal window.<br>
+Navigate to the project we created.<br>
+Copy the command to the terminal.<br>
+Or type it, it was:
+```
+git remote add origin git@github.com:myusername/workshop.git
+```
+Change the `myusername` part with your GitHub username.<br>
+Run:<br>
+```
+git push -u origin master
+```
 
-## Learn More
+### Step 4: Configure your application
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Open the project in the editor.<br>
+Open `package.json` and add the following to line.
+```json
+"homepage": “https://myusername.github.io/workshop",
+```
+Change the `myusername` part with your Gitub username.<br>
+Under `scripts` add the following two lines.<br>
+```json
+"predeploy": "npm run build",
+"deploy": "gh-pages -d build",
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### Step 5: Deploy your sample app to GitHub
 
-### Code Splitting
+Go to the terminal.<br>
+Run:
+```
+npm install --save gh-pages
+npm run deploy
+```
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+Go to https://myusername.github.io/workshop/.<br>
+Change the `myusername` part with your GitHub username.<br>
+Give it a minute, your sample application should appear there shortly.
