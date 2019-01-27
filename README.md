@@ -481,3 +481,275 @@ Also add this after td in `MovieList.css`
   text-align: center;
 }
 ```
+
+### Step 10: Add filtering
+
+Let's finish this off by adding some basic filter functionality so we can easily find the movie we want.<br>
+We will only filter by the first four attributes.<br>
+We begin with adding a `state` for our filters.<br>
+Change the `constructor` so it looks like this.
+```javascript
+  class MovieList extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      movies: [],
+      filters: {
+        title: '',
+        description: '',
+        director: '',
+        producer: '',
+      }
+    };
+  }
+```
+
+Now lets add a generic filter component.<br>
+Under `src` create a new file called `Filter.js`
+```javascript
+import React from 'react';
+
+const Filter = ({ filterKey, placeholder, value, onChange }) =>
+  <input
+    type="search"
+    placeholder={placeholder}
+    value={value}
+    onChange={event => {
+      onChange(filterKey, event)
+    }}
+  />
+
+
+export default Filter;
+
+```
+
+Go back to `MovieList.js` and import `Filter` component from `Filter.js`.<br>
+```javascript
+import Filter from './Filter.js';
+```
+
+We should also create a generic filter function to the `MovieList` component.<br>
+This should do the trick.
+```javascript
+handleFilters = (key, event) => {
+  const value = event.target.value;
+  this.setState(({ filters }) => ({ filters: { ...filters, [key]: value } }))
+}
+```
+
+Now edit the table header so it looks like this:
+```javascript
+<thead>
+  <tr>
+    <th><Filter placeholder="Filter by title" filterKey="title" value={filters.title} onChange={this.handleFilters} /></th>
+    <th><Filter placeholder="Filter by description" filterKey="description" value={filters.description} onChange={this.handleFilters} /></th>
+    <th><Filter placeholder="Filter by director" filterKey="director" value={filters.director} onChange={this.handleFilters} /></th>
+    <th><Filter placeholder="Filter by producer" filterKey="producer" value={filters.producer} onChange={this.handleFilters} /></th>
+    <th /><th />
+  </tr>
+  <tr>
+    <th>Title</th>
+    <th>Description</th>
+    <th>Director</th>
+    <th>Producer</th>
+    <th>Release date</th>
+    <th>Score (Rotten Tomatos)</th>
+  </tr>
+</thead>
+```
+
+Now we have filtering but we need to apply it to our data.<br>
+We need to create another method to `MovieList.js` to complete this.
+
+```javascript
+filterMovies = () => {
+  const { movies, filters } = this.state;
+  const activeFilterKeys = Object.keys(filters).filter(key => filters[key] !== '');
+  if (activeFilterKeys.length === 0) {
+    return movies;
+  }
+  return movies.filter((movie) =>
+    activeFilterKeys.every(key => movie[key].toLowerCase().includes(filters[key].toLowerCase()))
+  )
+}
+```
+
+Finally we need to filter the `movie` state before we render the content of it.<br>
+Change the `render` method so it looks like this:
+```javascript
+render() {
+  const { movies, filters } = this.state;
+  const filteredMovies = this.filterMovies(movies);
+  return (
+    <div className="wrapper">
+      <h1>Ghibli movies</h1>
+      <table>
+        <thead>
+          <tr>
+            <th><Filter placeholder="Filter by title" filterKey="title" value={filters.title} onChange={this.handleFilters} /></th>
+            <th><Filter placeholder="Filter by description" filterKey="description" value={filters.description} onChange={this.handleFilters} /></th>
+            <th><Filter placeholder="Filter by director" filterKey="director" value={filters.director} onChange={this.handleFilters} /></th>
+            <th><Filter placeholder="Filter by producer" filterKey="producer" value={filters.producer} onChange={this.handleFilters} /></th>
+            <th /><th />
+          </tr>
+          <tr>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Director</th>
+            <th>Producer</th>
+            <th>Release date</th>
+            <th>Score (Rotten Tomatos)</th>
+          </tr>
+        </thead>
+        <tbody>
+          {filteredMovies.map(({ id, title, description, director, producer, release_date, rt_score }) => <tr key={id} >
+            <td>{title}</td>
+            <td>{description}</td>
+            <td>{director}</td>
+            <td>{producer}</td>
+            <td className="number">{release_date}</td>
+            <td className="number">{rt_score}</td>
+          </tr>)}
+        </tbody>
+      </table>
+    </div>
+  )
+}
+```
+
+`MovieList.js` should now look like this:
+```javascript
+import React, { Component } from 'react';
+import { getMovieList } from './api';
+import './MovieList.css';
+import Filter from './Filter';
+
+class MovieList extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      movies: [],
+      filters: {
+        title: '',
+        description: '',
+        director: '',
+        producer: '',
+      }
+    };
+  }
+
+  componentDidMount() {
+    getMovieList().then(movies => {
+      this.setState({ movies })
+    })
+  }
+
+  handleFilters = (key, event) => {
+    const value = event.target.value;
+    this.setState(({ filters }) => ({ filters: { ...filters, [key]: value } }))
+  }
+
+  filterMovies = () => {
+    const { movies, filters } = this.state;
+    const activeFilterKeys = Object.keys(filters).filter(key => filters[key] !== '');
+    if (activeFilterKeys.length === 0) {
+      return movies;
+    }
+    return movies.filter((movie) =>
+      activeFilterKeys.every(key => movie[key].toLowerCase().includes(filters[key].toLowerCase()))
+    )
+  }
+
+  render() {
+    const { movies, filters } = this.state;
+    const filteredMovies = this.filterMovies(movies);
+    return (
+      <div className="wrapper">
+        <h1>Ghibli movies</h1>
+        <table>
+          <thead>
+            <tr>
+              <th><Filter placeholder="Filter by title" filterKey="title" value={filters.title} onChange={this.handleFilters} /></th>
+              <th><Filter placeholder="Filter by description" filterKey="description" value={filters.description} onChange={this.handleFilters} /></th>
+              <th><Filter placeholder="Filter by director" filterKey="director" value={filters.director} onChange={this.handleFilters} /></th>
+              <th><Filter placeholder="Filter by producer" filterKey="producer" value={filters.producer} onChange={this.handleFilters} /></th>
+              <th /><th />
+            </tr>
+            <tr>
+              <th>Title</th>
+              <th>Description</th>
+              <th>Director</th>
+              <th>Producer</th>
+              <th>Release date</th>
+              <th>Score (Rotten Tomatos)</th>
+            </tr>
+          </thead>
+          <tbody>
+            {filteredMovies.map(({ id, title, description, director, producer, release_date, rt_score }) => <tr key={id} >
+              <td>{title}</td>
+              <td>{description}</td>
+              <td>{director}</td>
+              <td>{producer}</td>
+              <td className="number">{release_date}</td>
+              <td className="number">{rt_score}</td>
+            </tr>)}
+          </tbody>
+        </table>
+      </div>
+    )
+  }
+}
+
+export default MovieList;
+
+```
+
+Go to http://localhost:3000 and try out the filtering.<br>
+
+Lets add a final detail before we call it a day.<br>
+
+Under `src` create a file called `Filter.css`;<br>
+
+Add this to it:
+```css
+.filter {
+  font-size: 16px;
+  width: 100%;
+}
+```
+
+Import the css in `Filter.js` and add `className="filter"` to the `input`.<br>
+
+`Filter.js` should now look like this:
+```javascript
+import React from 'react';
+import './Filter.css';
+
+const Filter = ({ filterKey, placeholder, value, onChange }) =>
+  <input
+    className="filter"
+    type="search"
+    placeholder={placeholder}
+    value={value}
+    onChange={event => {
+      onChange(filterKey, event)
+    }}
+  />
+
+
+export default Filter;
+
+```
+
+This is it.<br>
+Now lets end by pushing all out changes to the master and delpoying our project online.<br>
+In the terminal type:
+```
+git add --all
+git commit -m "my ghibli movie list"
+git push origin master
+npm run deploy
+```
+
+Hope you enjoyed it and feel free to ask me anything after the workshop.
