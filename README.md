@@ -22,12 +22,26 @@ There will be two possible ways of completing the workshop.
 
 ## Path B: Create a simple web application using [JSFiddle](https://jsfiddle.net).
 
+There are no requirement for this path.<br>
+
 ### Goals
 * Create a simple web application using React
 * Display information from an external Rest API
 
-If you choose this path skip steps 1 to 5
+The jsfiddle is in 5 steps.<br>
+Follow the links below to complete them.<br>
 
+[JSFiddle: Step 1](http://jsfiddle.net/arnigeirulfarsson/o9Lhnyta/)<br>
+
+[JSFiddle: Step 2](http://jsfiddle.net/arnigeirulfarsson/ntdcfyjw/)<br>
+
+[JSFiddle: Step 3](http://jsfiddle.net/arnigeirulfarsson/vfwa9ner/)<br>
+
+[JSFiddle: Step 4](http://jsfiddle.net/arnigeirulfarsson/vkhx269d/)<br>
+
+[JSFiddle: Step 5](http://jsfiddle.net/arnigeirulfarsson/ys4kdL5m/)<br>
+
+## Path A
 
 ### Step 1: Bootstrap a React application
 
@@ -324,12 +338,14 @@ class MovieList extends Component {
         <h1>Ghibli movies</h1>
         <table>
           <thead>
-            <th>Title</th>
-            <th>Description</th>
-            <th>Director</th>
-            <th>Producer</th>
-            <th>Release date</th>
-            <th>Score (Rotten Tomatos)</th>
+            <tr>
+              <th>Title</th>
+              <th>Description</th>
+              <th>Director</th>
+              <th>Producer</th>
+              <th>Release year</th>
+              <th>Score (Rotten Tomatoes)</th>
+            </tr>
           </thead>
           <tbody>
             {movies.map(({ id, title, description, director, producer, release_date, rt_score }) => <tr key={id} >
@@ -387,11 +403,11 @@ td {
   color: #443635;
 }
 
-tr:nth-child(odd) {
+tbody > tr:nth-child(odd) {
   background: #F9F778;
 }
 
-tr:nth-child(even) {
+tbody > tr:nth-child(even) {
   background: #8EC0E8;
 }
 
@@ -440,12 +456,14 @@ class MovieList extends Component {
         <h1>Ghibli movies</h1>
         <table>
           <thead>
-            <th>Title</th>
-            <th>Description</th>
-            <th>Director</th>
-            <th>Producer</th>
-            <th>Release date</th>
-            <th>Score (Rotten Tomatos)</th>
+            <tr>
+              <th>Title</th>
+              <th>Description</th>
+              <th>Director</th>
+              <th>Producer</th>
+              <th>Release year</th>
+              <th>Score (Rotten Tomatoes)</th>
+            </tr>
           </thead>
           <tbody>
             {movies.map(({ id, title, description, director, producer, release_date, rt_score }) => <tr key={id} >
@@ -542,19 +560,19 @@ Now edit the table header so it looks like this:
 ```javascript
 <thead>
   <tr>
+    <th>Title</th>
+    <th>Description</th>
+    <th>Director</th>
+    <th>Producer</th>
+    <th>Release year</th>
+    <th>Score (Rotten Tomatoes)</th>
+  </tr>
+  <tr>
     <th><Filter placeholder="Filter by title" filterKey="title" value={filters.title} onChange={this.handleFilters} /></th>
     <th><Filter placeholder="Filter by description" filterKey="description" value={filters.description} onChange={this.handleFilters} /></th>
     <th><Filter placeholder="Filter by director" filterKey="director" value={filters.director} onChange={this.handleFilters} /></th>
     <th><Filter placeholder="Filter by producer" filterKey="producer" value={filters.producer} onChange={this.handleFilters} /></th>
     <th /><th />
-  </tr>
-  <tr>
-    <th>Title</th>
-    <th>Description</th>
-    <th>Director</th>
-    <th>Producer</th>
-    <th>Release date</th>
-    <th>Score (Rotten Tomatos)</th>
   </tr>
 </thead>
 ```
@@ -587,19 +605,19 @@ render() {
       <table>
         <thead>
           <tr>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Director</th>
+            <th>Producer</th>
+            <th>Release year</th>
+            <th>Score (Rotten Tomatoes)</th>
+          </tr>
+          <tr>
             <th><Filter placeholder="Filter by title" filterKey="title" value={filters.title} onChange={this.handleFilters} /></th>
             <th><Filter placeholder="Filter by description" filterKey="description" value={filters.description} onChange={this.handleFilters} /></th>
             <th><Filter placeholder="Filter by director" filterKey="director" value={filters.director} onChange={this.handleFilters} /></th>
             <th><Filter placeholder="Filter by producer" filterKey="producer" value={filters.producer} onChange={this.handleFilters} /></th>
             <th /><th />
-          </tr>
-          <tr>
-            <th>Title</th>
-            <th>Description</th>
-            <th>Director</th>
-            <th>Producer</th>
-            <th>Release date</th>
-            <th>Score (Rotten Tomatos)</th>
           </tr>
         </thead>
         <tbody>
@@ -670,19 +688,19 @@ class MovieList extends Component {
         <table>
           <thead>
             <tr>
+              <th>Title</th>
+              <th>Description</th>
+              <th>Director</th>
+              <th>Producer</th>
+              <th>Release year</th>
+              <th>Score (Rotten Tomatoes)</th>
+            </tr>
+            <tr>
               <th><Filter placeholder="Filter by title" filterKey="title" value={filters.title} onChange={this.handleFilters} /></th>
               <th><Filter placeholder="Filter by description" filterKey="description" value={filters.description} onChange={this.handleFilters} /></th>
               <th><Filter placeholder="Filter by director" filterKey="director" value={filters.director} onChange={this.handleFilters} /></th>
               <th><Filter placeholder="Filter by producer" filterKey="producer" value={filters.producer} onChange={this.handleFilters} /></th>
               <th /><th />
-            </tr>
-            <tr>
-              <th>Title</th>
-              <th>Description</th>
-              <th>Director</th>
-              <th>Producer</th>
-              <th>Release date</th>
-              <th>Score (Rotten Tomatos)</th>
             </tr>
           </thead>
           <tbody>

@@ -48,19 +48,19 @@ class MovieList extends Component {
         <table>
           <thead>
             <tr>
+              <th>Title</th>
+              <th>Description</th>
+              <th>Director</th>
+              <th>Producer</th>
+              <th>Release year</th>
+              <th>Score (Rotten Tomatoes)</th>
+            </tr>
+            <tr>
               <th><Filter placeholder="Filter by title" filterKey="title" value={filters.title} onChange={this.handleFilters} /></th>
               <th><Filter placeholder="Filter by description" filterKey="description" value={filters.description} onChange={this.handleFilters} /></th>
               <th><Filter placeholder="Filter by director" filterKey="director" value={filters.director} onChange={this.handleFilters} /></th>
               <th><Filter placeholder="Filter by producer" filterKey="producer" value={filters.producer} onChange={this.handleFilters} /></th>
               <th /><th />
-            </tr>
-            <tr>
-              <th>Title</th>
-              <th>Description</th>
-              <th>Director</th>
-              <th>Producer</th>
-              <th>Release date</th>
-              <th>Score (Rotten Tomatos)</th>
             </tr>
           </thead>
           <tbody>

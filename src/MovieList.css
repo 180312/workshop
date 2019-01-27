@@ -27,11 +27,11 @@ td {
   text-align: center;
 }
 
-tr:nth-child(odd) {
+tbody > tr:nth-child(odd) {
   background: #F9F778;
 }
 
-tr:nth-child(even) {
+tbody > tr:nth-child(even) {
   background: #8EC0E8;
 }
 
