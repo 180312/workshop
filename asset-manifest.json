@@ -1,13 +1,13 @@
 {
-  "main.css": "/workshop/static/css/main.1cdea31f.chunk.css",
-  "main.js": "/workshop/static/js/main.0db298f5.chunk.js",
-  "main.js.map": "/workshop/static/js/main.0db298f5.chunk.js.map",
-  "static/js/1.4a34e45d.chunk.js": "/workshop/static/js/1.4a34e45d.chunk.js",
-  "static/js/1.4a34e45d.chunk.js.map": "/workshop/static/js/1.4a34e45d.chunk.js.map",
+  "main.css": "/workshop/static/css/main.655f4a6e.chunk.css",
+  "main.js": "/workshop/static/js/main.b1f66262.chunk.js",
+  "main.js.map": "/workshop/static/js/main.b1f66262.chunk.js.map",
+  "static/js/1.45082e81.chunk.js": "/workshop/static/js/1.45082e81.chunk.js",
+  "static/js/1.45082e81.chunk.js.map": "/workshop/static/js/1.45082e81.chunk.js.map",
   "runtime~main.js": "/workshop/static/js/runtime~main.a66ac1f9.js",
   "runtime~main.js.map": "/workshop/static/js/runtime~main.a66ac1f9.js.map",
-  "static/css/main.1cdea31f.chunk.css.map": "/workshop/static/css/main.1cdea31f.chunk.css.map",
+  "static/css/main.655f4a6e.chunk.css.map": "/workshop/static/css/main.655f4a6e.chunk.css.map",
   "index.html": "/workshop/index.html",
-  "precache-manifest.5c4e629a2c5aa774574815b377ab6bb8.js": "/workshop/precache-manifest.5c4e629a2c5aa774574815b377ab6bb8.js",
+  "precache-manifest.92d407d47557136b4b41e202e2cbd8fa.js": "/workshop/precache-manifest.92d407d47557136b4b41e202e2cbd8fa.js",
   "service-worker.js": "/workshop/service-worker.js"
 }
