@@ -295,3 +295,189 @@ export default MovieList;
 ```
 
 Go to http://localhost:3000 and you should now see a list of movie titles there.
+
+### Step 8: Display the rest of the data in a table
+
+Now lets display the rest of the [data](https://ghibliapi.herokuapp.com/#tag/Films%2Fpaths%2F~1films%2Fget) in a [table](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/table).<br>
+
+Change `MovieList.js` so it looks like this:
+```javascript
+import React, { Component } from 'react';
+import { getMovieList } from './api';
+
+class MovieList extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { movies: [] };
+  }
+
+  componentDidMount() {
+    getMovieList().then(movies => {
+      this.setState({ movies })
+    })
+  }
+
+  render() {
+    const { movies } = this.state;
+    return (
+      <div>
+        <h1>Ghibli movies</h1>
+        <table>
+          <thead>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Director</th>
+            <th>Producer</th>
+            <th>Release date</th>
+            <th>Score (Rotten Tomatos)</th>
+          </thead>
+          <tbody>
+            {movies.map(({ id, title, description, director, producer, release_date, rt_score }) => <tr key={id} >
+              <td>{title}</td>
+              <td>{description}</td>
+              <td>{director}</td>
+              <td>{producer}</td>
+              <td>{release_date}</td>
+              <td>{rt_score}</td>
+            </tr>)}
+          </tbody>
+        </table>
+      </div>
+    )
+  }
+}
+
+export default MovieList;
+
+```
+
+Go to http://localhost:3000 and view the changes.
+
+### Step 9: Add some CSS 💅
+
+Let's give this a minor facelift.<br>
+I'm using a color pallette from [here](http://designmadeinjapan.com/magazine/graphic-design/the-rich-colors-of-studio-ghibli/).<br>
+
+Create a new file under `src` called `MovieList.css`.<br>
+
+Add the following css:
+```css
+.wrapper {
+  background: #E68A3E;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+table {
+  border-spacing: 0px;
+  width: 100%;
+}
+
+th {
+  text-align: start;
+  padding: 5px;
+  color: #443635;
+}
+
+td {
+  padding: 5px;
+  max-width: 700px;
+  vertical-align: top;
+  color: #443635;
+}
+
+tr:nth-child(odd) {
+  background: #F9F778;
+}
+
+tr:nth-child(even) {
+  background: #8EC0E8;
+}
+
+h1 {
+  color: #443635;
+}
+
+```
+
+Go back to `MovieList.js` and import `MovieList.css`
+```javascript
+import React, { Component } from 'react';
+import { getMovieList } from './api';
+import './MovieList.css';
+```
+
+and add `className="wrapper"` to the the first `div`.<br>
+```javascript
+return (
+  <div className="wrapper">
+```
+
+`MovieList.js` should now look like this.
+
+```javascript
+import React, { Component } from 'react';
+import { getMovieList } from './api';
+import './MovieList.css';
+
+class MovieList extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { movies: [] };
+  }
+
+  componentDidMount() {
+    getMovieList().then(movies => {
+      this.setState({ movies })
+    })
+  }
+
+  render() {
+    const { movies } = this.state;
+    return (
+      <div className="wrapper">
+        <h1>Ghibli movies</h1>
+        <table>
+          <thead>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Director</th>
+            <th>Producer</th>
+            <th>Release date</th>
+            <th>Score (Rotten Tomatos)</th>
+          </thead>
+          <tbody>
+            {movies.map(({ id, title, description, director, producer, release_date, rt_score }) => <tr key={id} >
+              <td>{title}</td>
+              <td>{description}</td>
+              <td>{director}</td>
+              <td>{producer}</td>
+              <td>{release_date}</td>
+              <td>{rt_score}</td>
+            </tr>)}
+          </tbody>
+        </table>
+      </div>
+    )
+  }
+}
+
+export default MovieList;
+
+```
+
+Go to http://localhost:3000 and view the changes.
+
+Lets make one minor adjustment. I want the numberic fields to centered so add `className="number"` to the last two fields.
+```javascript
+<td className="number">{release_date}</td>
+<td className="number">{rt_score}</td>
+```
+
+Also add this after td in `MovieList.css`
+```css
+.number {
+  text-align: center;
+}
+```
