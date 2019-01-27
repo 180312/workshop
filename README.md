@@ -92,3 +92,206 @@ npm run deploy
 Go to https://myusername.github.io/workshop/.<br>
 Change the `myusername` part with your GitHub username.<br>
 Give it a minute, your sample application should appear there shortly.
+
+### Step 6: Create a simple component
+
+Go to the editor.<br>
+Under `src` create a file called `MovieList.js`.<br>
+To begin with let's keep it very simple.<br>
+
+Functions is JavaScript are either done like this:
+```javascript
+function add(a, b) {
+  return a + b;
+}
+```
+Or they can be written like this:
+```
+const add = (a, b) => {
+  return a + b;
+}
+```
+Or if we have a oneliner it can simply be written like this
+```
+const add = (a, b) => a + b;
+```
+These are called `Arrow functions` and we will be using them here.<br>
+
+
+Write:
+```javascript
+import React from 'react';
+
+const MovieList = () => <div>MovieList</div>;
+
+export default MovieList;
+
+```
+
+Now go to `App.js` and change it so it looks like this:
+
+```javascript
+import React from 'react';
+import MovieList from './MovieList';
+
+export default () => <div><MovieList /></div>
+
+```
+Note: We `export` the `MovieList` function so it can be imported in the `App`.<br>
+
+If you go to http://localhost:3000 you should see that it now only displays `MovieList` in the top left corner.
+
+### Step 7: Fetch information from an external API
+
+We will be using an open [Studio Ghibli API](https://ghibliapi.herokuapp.com/) to supply us with the information we want to display.
+
+I found the API [here](https://github.com/toddmotto/public-apis) listed with a bunch of other open API's.
+Open API's are great for practicing if you want to build your own project.
+Just be careful so you won't accidentally DDoS the kind souls hosting them.
+
+Under `src` create a new file called `api.js`.<br>
+
+Here we will create two functions.<br>
+
+The first one is a utility function to GET from a Rest API that does not require an authentication.<br>
+The function return a [promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_promises) which is an asynchronous operation.
+```javascript
+const get = url => fetch(url).then(response => response.json());
+```
+The second one calls the `get` function with the URL which points to our data.
+```javascript
+export const getMovieList = () => get('https://ghibliapi.herokuapp.com/films');
+```
+`api.js` should look like this now:
+```javascript
+const get = url => fetch(url).then(response => response.json());
+
+export const getMovieList = () => get('https://ghibliapi.herokuapp.com/films');
+
+```
+
+Note: We are only exporting the `getMovieList` function.<br>
+We don't need to use the `get` function in another file.<br>
+
+Now we need to do some changes to `MovieList.js`.<br>
+
+First of all we need to change `MovieList` from a `function` to a `class` and create an internal `state` to manage the movie list.
+```javascript
+import React, {Component} from 'react';
+
+class MovieList extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { movies: [] };
+  }
+}
+
+export default MovieList;
+
+```
+
+We also need to add a [Lifecycle](https://reactjs.org/docs/state-and-lifecycle.html) method that only calls our endpoint when our component is initiated.<br>
+The method we need is called [componentDidMount](https://reactjs.org/docs/react-component.html#componentdidmount).<br>
+
+Now lets import the `getMovieList` from `api.js` and call it when `MovieList` is initiated.
+After the data is fetched from the API we updated the `movies` state with the information.
+```javascript
+import React, { Component } from 'react';
+import { getMovieList } from './api';
+
+class MovieList extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { movies: [] };
+  }
+
+  componentDidMount() {
+    getMovieList().then(movies => {
+      this.setState({ movies })
+    })
+  }
+}
+
+export default MovieList;
+```
+
+Now we need to create the [DOM](https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model/Introduction) that is rendered in our browser along with our data.<br>
+We add a `render` where we iterate through the list of movies and add them to the DOM.
+
+```javascript
+import React, { Component } from 'react';
+import { getMovieList } from './api';
+
+class MovieList extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { movies: [] };
+  }
+
+  componentDidMount() {
+    getMovieList().then(movies => {
+      this.setState({ movies })
+    })
+  }
+
+  render() {
+    return (
+      <div>
+        <h1>Ghibli movies</h1>
+        <div>
+          {this.state.movies.map((movie) => <div key={movie.id} >{movie.title}</div>)}
+        </div>
+      </div>
+    )
+  }
+}
+
+export default MovieList;
+
+```
+
+This looks pretty good, however I want to make one minor adjustment.<br>
+[Destructing](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment) is a way of unpacking values from objects or arrays.<br>
+I want to use it to make the syntax a little cleaner.<br>
+It works like this:
+```javascript
+const a = { b: { c : 'd' } };
+const { b } = a; // { c : 'd' }
+const { c } = b; // 'd'
+```
+
+After a few changes `MovieList.js` should looks like this:
+```javascript
+import React, { Component } from 'react';
+import { getMovieList } from './api';
+
+class MovieList extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { movies: [] };
+  }
+
+  componentDidMount() {
+    getMovieList().then(movies => {
+      this.setState({ movies })
+    })
+  }
+
+  render() {
+    const { movies } = this.state;
+    return (
+      <div>
+        <h1>Ghibli movies</h1>
+        <div>
+          {movies.map(({ id, title }) => <div key={id} >{title}</div>)}
+        </div>
+      </div>
+    )
+  }
+}
+
+export default MovieList;
+
+```
+
+Go to http://localhost:3000 and you should now see a list of movie titles there.
